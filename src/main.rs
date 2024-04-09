@@ -20,9 +20,15 @@ async fn main() -> std::io::Result<()> {
         .connect_lazy(connection_string.expose_secret())
         .expect("Failed to connect to database");
 
-    let address = format!("{}:{}", configuration.application.host, configuration.application.port);
+    let address = format!(
+        "{}:{}",
+        configuration.application.host, configuration.application.port
+    );
     let listener = TcpListener::bind(address)
         .unwrap_or_else(|_| panic!("Failed to bind port {}", configuration.application.port));
-    println!("Listening to {}:{}", configuration.application.host, configuration.application.port);
+    println!(
+        "Listening to {}:{}",
+        configuration.application.host, configuration.application.port
+    );
     run(listener, db_pool)?.await
 }
